@@ -7,12 +7,12 @@ This is the eleventh assignment for the MSU Coding Bootcamp; to modify starter c
 
 ### Live Links
 - [Daniel Shoup's Note Taker Repisitory](https://github.com/danshoup/note-taker)
-- [Daniel Shoup's link to the deployed file on Heroku](https://nameless-earth-45114.herokuapp.com/)
+- [Daniel Shoup's link to git the deployed file on Heroku](https://nameless-earth-45114.herokuapp.com/)
 
 
 ### Note Taker Screenshot
 
-![Application Screen Shot](./Assets/11-express-homework-demo-01.png)
+![Application Screen Shot](./public/assets/images/note-taker-screenshot.png)
 
 
 ## Acceptance Criteria
