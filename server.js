@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 let uniqid = require('uniqid');
 // const noteData = require('./db/db.json');
-let notesField = [];
+let notesArr = [];
 
 // Sets up the express App:
 const app = express();
@@ -27,7 +27,7 @@ app.get('/notes', (req, res) => {
 
 // API Routes:
 app.get('/api/notes', (req, res) => {
-    fs.readFile(path.join(__dirname, './db/db.json'), 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
         err ? console.log(err): res.send(data);
     });
 });
@@ -40,10 +40,10 @@ app.post('/api/notes', (req, res) => {
         } else {
             req.body.id = uniqid();
             if (data) {
-                notesField = JSON.parse(data);
+                notesArr = JSON.parse(data);
             }
-            notesField.push(req.body);
-            fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notesField), 'utf8', (err) => {
+            notesArr.push(req.body);
+            fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notesArr), 'utf8', (err) => {
                 if (err) {console.log(err)};
             });
             res.end();
@@ -57,12 +57,12 @@ app.delete('api/notes/:id', (req, res) => {
             console.log(err);
         } else {
             let deleteId = req.params.id;
-            notesField = JSON.parse(data);
-            notesField = notesField.filter((note) => {
+            notesArr = JSON.parse(data);
+            notesArr = notesArr.filter((note) => {
                 return note.id != deleteId;
             });
         };
-        fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notesField), (err) => {
+        fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notesArr), 'utf8', (err) => {
             if (err) {console.log(err)};
         });
         res.end();

@@ -1,1 +1,6 @@
-[{"title":"New note title","text":"New text content","id":""},[{"title":"another new note","text":"what shwll we write in heret","id":""}],[{"title":"Let's try again","text":"We have three notes in here now.  Whey won't they render...","id":"unique id here?"}]]
+[
+    {
+        "title":"Test Title",
+        "text":"Test text"
+    }
+]
