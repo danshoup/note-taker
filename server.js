@@ -16,15 +16,6 @@ app.use(express.json());
 app.use(express.static('public'));
 
 
-// HTML Routes: 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/index.html'));
-});
-
-app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/notes.html'));
-});
-
 // API Routes:
 app.get('/api/notes', (req, res) => {
     fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
@@ -68,6 +59,17 @@ app.delete('api/notes/:id', (req, res) => {
         res.end();
     });
 });
+
+
+// HTML Routes: 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'));
+});
+
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/notes.html'));
+});
+
 
 // Starts server to begin listening:
 app.listen(PORT, () => console.log(`App is listening for NOTES on PORT ${PORT}`));
