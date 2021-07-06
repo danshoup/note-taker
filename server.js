@@ -2,7 +2,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-// Use uniqid to create a unique id for each note
+// Use ShortUniqueId to create a unique id for each note
 const ShortUniqueId = require('short-unique-id');
 const uid = new ShortUniqueId();
 
@@ -46,41 +46,36 @@ app.post('/api/notes', (req, res) => {
     });
 });
 
-// app.post('/api/notes', (req, res) => {
+app.delete('api/notes/:id', (req, res) => {
+    req.params.id = deleteId;
+    let newData = noteData.filter(deleteId);
+    console.log(newData);
+    fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(newData), (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(newData);
+            };
+    });
+});
+
+// app.delete('api/notes/:id', (req, res) => {
 //     fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
 //         if (err) {
 //             console.log(err);
 //         } else {
-//             req.body.id = uid();
-//             noteData.push(req.body);
-//             fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(noteData), (err) => {
-//                 if (err) {
-//                     console.log(err)
-//                 } else {
-//                     res.send(noteData);
-//                 };
+//             let deleteId = req.params.id;
+//             noteData = JSON.parse(data);
+//             noteData = noteData.filter((note) => {
+//                 return note.id != deleteId;
 //             });
 //         };
+//         fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(noteData), (err) => {
+//             if (err) {console.log(err)};
+//         });
+//         res.end();
 //     });
 // });
-
-app.delete('api/notes/:id', (req, res) => {
-    fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
-        if (err) {
-            console.log(err);
-        } else {
-            let deleteId = req.params.id;
-            noteData = JSON.parse(data);
-            noteData = noteData.filter((note) => {
-                return note.id != deleteId;
-            });
-        };
-        fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(noteData), (err) => {
-            if (err) {console.log(err)};
-        });
-        res.end();
-    });
-});
 
 
 // HTML GET Routes: handles when users "visit" a page.
