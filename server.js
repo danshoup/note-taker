@@ -24,6 +24,8 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // API Routes:
+
+// GET route
 app.get('/api/notes', (req, res) => {
     fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
         if (err) {
@@ -34,6 +36,7 @@ app.get('/api/notes', (req, res) => {
     });
 });
 
+// POST route
 app.post('/api/notes', (req, res) => {
     req.body.id = uid();
     noteData.push(req.body);
@@ -46,22 +49,24 @@ app.post('/api/notes', (req, res) => {
     });
 });
 
-app.delete('api/notes/:id', (req, res) => {
-    let deleteId = req.params.id;
+// DELETE route
+app.delete('/api/notes/:id', (req, res) => {
     fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
         if (err) {
             console.log(err);
         } else {
-            let newData = data.filter({ id: deleteId });
+            noteData = JSON.parse(data);
+            noteData = noteData.filter((note) => {
+                return note.id != req.params.id;
+            });
+            fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(noteData), (err) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    res.send(noteData);
+                };
+            });
         };
-    });
-    console.log(newData);
-    fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(newData), (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(newData);
-            };
     });
 });
 
