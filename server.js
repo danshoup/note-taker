@@ -47,8 +47,14 @@ app.post('/api/notes', (req, res) => {
 });
 
 app.delete('api/notes/:id', (req, res) => {
-    req.params.id = deleteId;
-    let newData = noteData.filter(deleteId);
+    let deleteId = req.params.id;
+    fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+            let newData = data.filter({ id: deleteId });
+        };
+    });
     console.log(newData);
     fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(newData), (err) => {
             if (err) {
@@ -58,24 +64,6 @@ app.delete('api/notes/:id', (req, res) => {
             };
     });
 });
-
-// app.delete('api/notes/:id', (req, res) => {
-//     fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             let deleteId = req.params.id;
-//             noteData = JSON.parse(data);
-//             noteData = noteData.filter((note) => {
-//                 return note.id != deleteId;
-//             });
-//         };
-//         fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(noteData), (err) => {
-//             if (err) {console.log(err)};
-//         });
-//         res.end();
-//     });
-// });
 
 
 // HTML GET Routes: handles when users "visit" a page.
